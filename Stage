@@ -1,0 +1,56 @@
+Réseau booléen : f : {0,1}^n → {0,1}^n
+x = (x1,…,xn) = f(x) = (f1(x), f2(x)… fn(x))
+
+f = fonction de transisition globale
+f1… locale {0,1}^n → {0,1}
+
+Graphe d'interaction G(f)
+ les sommets {1, ..., n}
+ les axes { j → i | fi dépend de xj }
+
+→ chaque sommet dépend de ses voisins
+G(f)
+
+1 ---> 2 : 2 dépend de 1
+
+on connait souvent G(f) mais pas f
+ → que peut-on dire de f quand on connait que G(f) ?
+
+plusieurs fonctions peuvent donner un même graphe G
+
+F(G) = tous les réseaux f qui ont G comme graphe d'interaction
+
+points fixes ou points cycliques : on retombe sur un état déjà visité
+(une configuration de x déjà connue)
+
+Phi(G) : Plus grand nombre de points fixes dans une fonction f dans F(G) (pour toutes les fonctions)
+ → compris entre 1 et 2^n
+
+On connait beaucoup de bornes supérieures de Phi(G) mais pas de bornes inférieures
+
+Phi(G) >= Nu(G) + 1
+Nu = nb maximum de cycles disjoints dans G
+Nu = packing number
+
+Cycles disjoints dans G : cycles du graphe qui ne partagent aucun sommet
+
+K^*_n
+Nu(K^*_n) = n
+n cycles disjoints de longueur n
+
+Pour K^*_3 : 1.1 = premier sommet dans le premier cycle, 1.2 2ème sommet dans le premier cycle
+sommet représentant de chaque cycle : 1.1, 2.2 et 3.3 (celui qui double)
+3.3 on l'envoie vers les x.3
+Les sommets sont des couples (plus simple)
+
+Propriété intéressante : degré entrant 1 (pour les noeuds représentants (i,i)) ou deux
+donc (i,i) peut prendre deux fonctions locales
+	(i,j) peut en prendre 10 (qui dépendent des deux données d'entrées)
+
+10^(n²-n) x 2^n fonctions possibles pour K^*_n
+
+
+Coder en dur K*^3
+Calculer Phi
+quelles sont les fonctions qui atteignent Phi ?
+fonctions codées en binaire? (0 = une fonction, 1 l'autre, donc ne selectionner que deux fonctions)
