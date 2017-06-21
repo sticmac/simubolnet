@@ -5,13 +5,13 @@ package fr.unice.i3s.mdsc.simubool.graph;
  */
 public class Edge {
 
-	private int x;
-	private int y;
+	private Node x;
+	private Node y;
 	
 	/**
 	 * builds the edge (x,y)
 	 */
-	public Edge(int x, int y) {
+	public Edge(Node x, Node y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -19,14 +19,14 @@ public class Edge {
 	/**
 	 * returns the origin of the edge
 	 */
-	public int origin() {
+	public Node origin() {
 		return x;
 	}
 	
 	/**
 	 * returns the destination of the edge
 	 */
-	public int destination() {
+	public Node destination() {
 		return y;
 	}
 	
@@ -43,6 +43,6 @@ public class Edge {
 	
 	@Override
 	public int hashCode() {
-		return x + 37*y;
+		return x.hashCode() + 37*y.hashCode();
 	}
 }

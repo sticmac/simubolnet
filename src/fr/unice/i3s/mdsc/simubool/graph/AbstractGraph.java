@@ -12,23 +12,25 @@ public abstract class AbstractGraph {
 	protected int nbEdges;
 	
 	// the adjacency list
-	protected List<List<Integer>> adjacencyList;
-	
+	//protected List<List<Integer>> adjacencyList;
+	protected Node[] nodes;
+
 	/**
 	 * builds an abstract graph with n vertices
 	 */
 	public AbstractGraph(int n) {
 		nbEdges = 0;
-		adjacencyList = new ArrayList<List<Integer>>();
-		for ( int i = 0; i < n; i++ )
-			adjacencyList.add(new LinkedList<Integer>());
+		nodes = new Node[n];
+		for (int i = 0 ; i < nodes.length ; i++) {
+			nodes[i] = new Node(i, 0);
+		}
 	}
 	
 	/**
 	 * returns the number of vertices
 	 */
 	public int nbVertices() {
-		return adjacencyList.size();
+		return nodes.length;
 	}
 	
 	/**
@@ -42,15 +44,15 @@ public abstract class AbstractGraph {
 	 * returns an iterable object over
 	 * the vertices adjacent to u
 	 */
-	public Iterable<Integer> adjacents(int u) {
-		return adjacencyList.get(u);
+	public Iterable<Node> adjacents(Node u) {
+		return u.getAdjacents();
 	}
 	
 	/**
 	 * returns an iterable object over
 	 * the edges incident to u
 	 */	
-	public Iterable<Edge> incidents(int u) {
+	public Iterable<Edge> incidents(Node u) {
 		return new EdgeIterator(u);
 	}
 	
@@ -67,28 +69,31 @@ public abstract class AbstractGraph {
 	public void removeEdge(Edge e) {
 		removeEdge(e.origin(), e.destination());
 	}
+
+	public void addEdge(int u, int v) {
+		addEdge(nodes[u], nodes[v]);
+	}
+
+	public void removeEdge(int u, int v) {
+		removeEdge(nodes[u], nodes[v]);
+	}
 	
 	/**
 	 * adds the edge (u,v) to the graph
 	 */	
-	public abstract void addEdge(int u, int v);
+	public abstract void addEdge(Node u, Node v);
 	
 	/**
 	 * removes the edge (u,v) from the graph
 	 */	
-	public abstract void removeEdge(int u, int v);
-
-	/**
-	 * returns the total degree of u
-	 */
-	public abstract int degree(int u);
+	public abstract void removeEdge(Node u, Node v);
 
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 
-		for (int i = 0 ; i < adjacencyList.size() ; i++) {
-			stringBuilder.append(i+" -> "+adjacencyList.get(i)+"\n");
+		for (int i = 0 ; i < nodes.length ; i++) {
+			stringBuilder.append(nodes[i]).append(" -> ").append(nodes[i].getAdjacents()).append("\n");
 		}
 
 		return stringBuilder.toString();
@@ -97,12 +102,12 @@ public abstract class AbstractGraph {
 	// an inner class to iterate over the incident edges
 	private class EdgeIterator implements Iterable<Edge>, Iterator<Edge> {
 		
-		int origin;
-		Iterator<Integer> adjacents;
+		Node origin;
+		Iterator<Node> adjacents;
 		
-		EdgeIterator(int u) {
+		EdgeIterator(Node u) {
 			origin = u;
-			adjacents = adjacencyList.get(u).iterator();
+			adjacents = u.getAdjacents().iterator();
 		}
 		
 		public Iterator<Edge> iterator() {
