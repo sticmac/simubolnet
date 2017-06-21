@@ -22,7 +22,7 @@ public abstract class AbstractGraph {
 		nbEdges = 0;
 		nodes = new Node[n];
 		for (int i = 0 ; i < nodes.length ; i++) {
-			nodes[i] = new Node(i, 0);
+			nodes[i] = new Node(i, false);
 		}
 	}
 	

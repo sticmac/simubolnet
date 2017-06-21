@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Node {
 	private int id;
-	private int value;
+	private boolean value;
 	private int inDegree;
 	private List<Node> adjacents;
 
-	public Node(int id, int value) {
+	public Node(int id, boolean value) {
 		this.id = id;
 		this.value = value;
 		this.adjacents = new ArrayList<>();
 	}
 
-	public int getValue() {
+	public boolean getValue() {
 		return value;
 	}
 
