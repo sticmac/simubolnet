@@ -95,7 +95,7 @@ public abstract class AbstractGraph {
 			stringBuilder.append(nodes[i].getValue() ? "1" : "0");
 		}
 
-		return stringBuilder.toString() + "\n";
+		return stringBuilder.toString();
 	}
 
 	// an inner class to iterate over the incident edges

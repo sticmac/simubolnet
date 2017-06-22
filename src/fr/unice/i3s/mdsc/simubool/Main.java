@@ -1,7 +1,6 @@
 package fr.unice.i3s.mdsc.simubool;
 
 import fr.unice.i3s.mdsc.simubool.graph.*;
-import fr.unice.i3s.mdsc.simubool.util.Pair;
 
 public class Main {
 	public static void main(String[] args) {
