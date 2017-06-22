@@ -3,7 +3,6 @@ package fr.unice.i3s.mdsc.simubool.graph;
 import fr.unice.i3s.mdsc.simubool.graph.node.BiPredicateNode;
 import fr.unice.i3s.mdsc.simubool.graph.node.Node;
 import fr.unice.i3s.mdsc.simubool.graph.node.PredicateNode;
-import fr.unice.i3s.mdsc.simubool.util.Pair;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class KStarDiGraph extends DiGraph {
 
 		for (int i = 0 ; i < size ; i++) {
 			if (i % 4 == 0) {
-				nodes[i] = new PredicateNode(i, false, (b) -> !b);
+				nodes[i] = new PredicateNode(i, false, (b) -> b);
 			} else {
 				nodes[i] = new BiPredicateNode(i, false, (b1, b2) -> b1 || b2);
 			}
@@ -46,17 +45,9 @@ public class KStarDiGraph extends DiGraph {
 		this.addEdge(8,5);
 	}
 
-	public void changeValueOf(Pair<Integer, Integer> key, boolean newValue) {
-		this.changeValueOf(key.getLeft(), key.getRight(), newValue);
-	}
-
 	public void changeValueOf(int x, int y, boolean newValue) {
 		int intKey = (x - 1) * order + (y - 1);
-		nodes[intKey].setValue(newValue);
-		if (newValue)
-			value |= (1 << intKey);
-		else
-			value &= ~(1 << intKey);
+		this.changeValueOf(intKey, newValue);
 	}
 
 	public void updateAllValues() {
@@ -73,8 +64,8 @@ public class KStarDiGraph extends DiGraph {
 			this.value += (nodes[i].getValue() ? 1 : 0) * Math.pow(2, i);
 		}
 
-		for (int i = 0 ; i < nodes.length ; i++) {
-			nodes[i].syncPreviousValueWithValue();
+		for (Node node : nodes) {
+			node.syncPreviousValueWithValue();
 		}
 	}
 }

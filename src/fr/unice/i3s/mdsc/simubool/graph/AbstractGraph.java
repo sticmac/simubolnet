@@ -81,7 +81,27 @@ public abstract class AbstractGraph {
 	public int value() {
 		return value;
 	}
-	
+
+	public void setValues(int entry) {
+		String binaryEntry = Integer.toBinaryString(entry);
+		int i = 0;
+		for ( ; i < binaryEntry.length() ; i++) {
+			char bit = binaryEntry.charAt(binaryEntry.length() - 1 - i);
+			this.changeValueOf(i, bit == '1');
+		}
+		for ( ; i < nodes.length ; i++) {
+			this.changeValueOf(i, false);
+		}
+	}
+
+	public void changeValueOf(int index, boolean newValue) {
+		nodes[index].setValue(newValue);
+		if (newValue)
+			value |= (1 << index);
+		else
+			value &= ~(1 << index);
+	}
+
 	/**
 	 * adds the edge (u,v) to the graph
 	 */	
