@@ -1,9 +1,6 @@
 package fr.unice.i3s.mdsc.simubool.graph.node;
 
-import fr.unice.i3s.mdsc.simubool.graph.Edge;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public abstract class Node {
@@ -36,6 +33,10 @@ public abstract class Node {
 		return parents;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	public boolean addAdjacent(Node u) {
 		boolean contains = this.adjacents.contains(u);
 		if (!contains) {
@@ -53,7 +54,7 @@ public abstract class Node {
 		return success;
 	}
 
-	public abstract void updateValue();
+	public abstract void updateValue(boolean... values);
 
 	/**
 	 * returns the out-degree of u

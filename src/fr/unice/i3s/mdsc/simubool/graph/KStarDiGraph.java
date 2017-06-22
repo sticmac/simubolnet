@@ -1,10 +1,13 @@
 package fr.unice.i3s.mdsc.simubool.graph;
 
 import fr.unice.i3s.mdsc.simubool.graph.node.BiPredicateNode;
+import fr.unice.i3s.mdsc.simubool.graph.node.Node;
 import fr.unice.i3s.mdsc.simubool.graph.node.PredicateNode;
 import fr.unice.i3s.mdsc.simubool.util.Pair;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.LongToDoubleFunction;
 
 public class KStarDiGraph extends DiGraph {
 	private int order;
@@ -55,8 +58,21 @@ public class KStarDiGraph extends DiGraph {
 	}
 
 	public void updateAllValues() {
+		boolean[] oldValues = new boolean[order * order];
+
 		for (int i = 0 ; i < nodes.length ; i++) {
-			nodes[i].updateValue();
+			oldValues[i] = nodes[i].getValue();
+		}
+
+		for (int i = 0 ; i < nodes.length ; i++) {
+			List<Node> parents = nodes[i].getParents();
+			if (parents.size() == 2) {
+				nodes[i].updateValue(oldValues[parents.get(0).getId()], oldValues[parents.get(1).getId()]);
+			} else if (parents.size() == 1) {
+				nodes[i].updateValue(oldValues[parents.get(0).getId()]);
+			} else {
+				throw new UnsupportedOperationException("Node " + i + " cannot be updated because it has " + parents.size() + "parents (expected 1 or 2).");
+			}
 		}
 	}
 }
