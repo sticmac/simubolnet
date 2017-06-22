@@ -1,8 +1,7 @@
 package fr.unice.i3s.mdsc.simubool.graph;
 
-import fr.unice.i3s.mdsc.simubool.graph.node.BiPredicateNode;
+import fr.unice.i3s.mdsc.simubool.graph.node.MultiPredicateNode;
 import fr.unice.i3s.mdsc.simubool.graph.node.Node;
-import fr.unice.i3s.mdsc.simubool.graph.node.PredicateNode;
 
 import java.util.List;
 
@@ -17,9 +16,9 @@ public class KStarDiGraph extends DiGraph {
 
 		for (int i = 0 ; i < size ; i++) {
 			if (i % 4 == 0) {
-				nodes[i] = new PredicateNode(i, false, (b) -> b);
+				nodes[i] = new MultiPredicateNode(i, false, (b) -> b[0]);
 			} else {
-				nodes[i] = new BiPredicateNode(i, false, (b1, b2) -> b1 || b2);
+				nodes[i] = new MultiPredicateNode(i, false, (b) -> b[0] || b[1]);
 			}
 		}
 
@@ -43,6 +42,18 @@ public class KStarDiGraph extends DiGraph {
 
 		this.addEdge(8,2);
 		this.addEdge(8,5);
+	}
+
+	public void setValues(int entry) {
+		String binaryEntry = Integer.toBinaryString(entry);
+		int i = 0;
+		for ( ; i < binaryEntry.length() ; i++) {
+			char bit = binaryEntry.charAt(binaryEntry.length() - 1 - i);
+			this.changeValueOf(i, bit == '1');
+		}
+		for ( ; i < nodes.length ; i++) {
+			this.changeValueOf(i, false);
+		}
 	}
 
 	public void changeValueOf(int x, int y, boolean newValue) {
