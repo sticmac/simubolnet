@@ -1,50 +1,44 @@
 package fr.unice.i3s.mdsc.simubool.graph;
 
 import fr.unice.i3s.mdsc.simubool.graph.node.Node;
+import fr.unice.i3s.mdsc.simubool.util.Pair;
 
 /**
  * A class for the edges of a graph.
  */
-public class Edge {
+public class Edge extends Pair<Node, Node> {
 
-	private Node x;
-	private Node y;
-	
-	/**
-	 * builds the edge (x,y)
-	 */
-	public Edge(Node x, Node y) {
-		this.x = x;
-		this.y = y;
+	public Edge(Node left, Node right) {
+		super(left, right);
 	}
-	
+
 	/**
 	 * returns the origin of the edge
 	 */
 	public Node origin() {
-		return x;
+		return getLeft();
 	}
 	
 	/**
 	 * returns the destination of the edge
 	 */
 	public Node destination() {
-		return y;
+		return getRight();
 	}
 	
 	@Override
 	public String toString() {
-		return "(" + x + ", " + y + ")";
+		return "(" + getLeft() + ", " + getRight() + ")";
 	}
 	
 	@Override
 	public boolean equals(Object o) {
 		Edge e = (Edge) o;
-		return x == e.x && y == e.y;
+		return getLeft() == e.getLeft() && getRight() == e.getRight();
 	}
 	
 	@Override
 	public int hashCode() {
-		return x.hashCode() + 37*y.hashCode();
+		return getLeft().hashCode() + 37*getRight().hashCode();
 	}
 }
