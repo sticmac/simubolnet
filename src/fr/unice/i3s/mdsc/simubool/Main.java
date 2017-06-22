@@ -9,9 +9,12 @@ public class Main {
 		diGraph.changeValueOf(1, 1, true);
 
 		System.out.println(diGraph);
+		String lastRes = "";
 
-		diGraph.updateAllValues();
-
-		System.out.println(diGraph);
+		for (int i = 0 ; i < 100000 && !diGraph.toString().equals(lastRes) ; i++) {
+			lastRes = diGraph.toString();
+			diGraph.updateAllValues();
+			System.out.println(diGraph);
+		}
 	}
 }
