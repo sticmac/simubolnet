@@ -13,7 +13,9 @@ public class BiPredicateNode extends Node {
 
 	@Override
 	public void updateValue(boolean... values) {
-		if (values.length >= 2)
+		if (values.length >= 2) {
+			this.previousValue = this.value;
 			this.value = function.test(values[0], values[1]);
+		}
 	}
 }

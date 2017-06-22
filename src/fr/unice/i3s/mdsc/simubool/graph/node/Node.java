@@ -6,6 +6,7 @@ import java.util.List;
 public abstract class Node {
 	private int id;
 	protected boolean value;
+	protected boolean previousValue;
 	private int inDegree;
 	private List<Node> adjacents;
 	private List<Node> parents;
@@ -13,12 +14,17 @@ public abstract class Node {
 	public Node(int id, boolean value) {
 		this.id = id;
 		this.value = value;
+		this.previousValue = value;
 		this.adjacents = new ArrayList<>();
 		this.parents = new ArrayList<>();
 	}
 
 	public boolean getValue() {
 		return value;
+	}
+
+	public boolean getPreviousValue() {
+		return previousValue;
 	}
 
 	public void setValue(boolean value) {

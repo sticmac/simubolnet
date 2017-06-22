@@ -14,7 +14,9 @@ public class PredicateNode extends Node {
 
 	@Override
 	public void updateValue(boolean... values) {
-		if (values.length >= 1)
+		if (values.length >= 1) {
+			this.previousValue = this.value;
 			this.value = function.test(values[0]);
+		}
 	}
 }
