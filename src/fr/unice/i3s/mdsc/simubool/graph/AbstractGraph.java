@@ -92,37 +92,37 @@ public abstract class AbstractGraph {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		for (int i = 0 ; i < nodes.length ; i++) {
-			stringBuilder.append(nodes[i]).append(" -> ").append(nodes[i].getAdjacents()).append("\n");
+			stringBuilder.append(nodes[i].getValue() ? "1" : "0");
 		}
 
-		return stringBuilder.toString();
+		return stringBuilder.toString() + "\n";
 	}
-	
+
 	// an inner class to iterate over the incident edges
 	private class EdgeIterator implements Iterable<Edge>, Iterator<Edge> {
-		
+
 		Node origin;
 		Iterator<Node> adjacents;
-		
+
 		EdgeIterator(Node u) {
 			origin = u;
 			adjacents = u.getAdjacents().iterator();
 		}
-		
+
 		public Iterator<Edge> iterator() {
 			return this;
 		}
-		
+
 		public boolean hasNext() {
 			return adjacents.hasNext();
 		}
-		
+
 		public Edge next() {
 			return new Edge(origin,adjacents.next());
 		}
-		
+
 		public void remove() {
-			throw new UnsupportedOperationException(); 
-		}		
+			throw new UnsupportedOperationException();
+		}
 	}
 }

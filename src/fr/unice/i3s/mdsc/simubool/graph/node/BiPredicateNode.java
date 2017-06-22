@@ -1,6 +1,5 @@
 package fr.unice.i3s.mdsc.simubool.graph.node;
 
-import java.util.List;
 import java.util.function.BiPredicate;
 
 public class BiPredicateNode extends Node {
@@ -14,7 +13,6 @@ public class BiPredicateNode extends Node {
 
 	@Override
 	public void updateValue() {
-		List<Node> adjacents = this.getAdjacents();
-		this.value = function.test(adjacents.get(0).getValue(), adjacents.get(1).getValue());
+		this.value = function.test(this.getParents().get(0).getValue(), this.getParents().get(1).getValue());
 	}
 }

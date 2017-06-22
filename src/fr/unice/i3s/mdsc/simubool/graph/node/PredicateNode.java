@@ -1,5 +1,7 @@
 package fr.unice.i3s.mdsc.simubool.graph.node;
 
+import fr.unice.i3s.mdsc.simubool.graph.Edge;
+
 import java.util.function.Predicate;
 
 public class PredicateNode extends Node {
@@ -12,6 +14,6 @@ public class PredicateNode extends Node {
 
 	@Override
 	public void updateValue() {
-		this.value = function.test(getAdjacents().get(0).getValue());
+		this.value = this.getParents().get(0).getValue();
 	}
 }
