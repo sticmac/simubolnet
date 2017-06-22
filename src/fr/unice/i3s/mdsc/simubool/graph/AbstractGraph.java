@@ -14,8 +14,9 @@ public abstract class AbstractGraph {
 	protected int nbEdges;
 	
 	// the adjacency list
-	//protected List<List<Integer>> adjacencyList;
 	protected Node[] nodes;
+
+	protected int value;
 
 	/**
 	 * builds an abstract graph with n vertices
@@ -76,6 +77,10 @@ public abstract class AbstractGraph {
 	public void removeEdge(int u, int v) {
 		removeEdge(nodes[u], nodes[v]);
 	}
+
+	public int value() {
+		return value;
+	}
 	
 	/**
 	 * adds the edge (u,v) to the graph
@@ -92,7 +97,7 @@ public abstract class AbstractGraph {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		for (int i = 0 ; i < nodes.length ; i++) {
-			stringBuilder.append(nodes[i].getValue() ? "1" : "0");
+			stringBuilder.insert(0, nodes[i].getValue() ? '1' : '0');
 		}
 
 		return stringBuilder.toString();

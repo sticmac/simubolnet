@@ -27,6 +27,10 @@ public abstract class Node {
 		return previousValue;
 	}
 
+	public void syncPreviousValueWithValue() {
+		this.previousValue = this.value;
+	}
+
 	public void setValue(boolean value) {
 		this.value = value;
 	}

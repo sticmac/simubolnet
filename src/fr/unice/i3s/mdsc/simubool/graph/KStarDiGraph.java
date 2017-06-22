@@ -18,7 +18,7 @@ public class KStarDiGraph extends DiGraph {
 
 		for (int i = 0 ; i < size ; i++) {
 			if (i % 4 == 0) {
-				nodes[i] = new PredicateNode(i, false, (b) -> b);
+				nodes[i] = new PredicateNode(i, false, (b) -> !b);
 			} else {
 				nodes[i] = new BiPredicateNode(i, false, (b1, b2) -> b1 || b2);
 			}
@@ -53,9 +53,14 @@ public class KStarDiGraph extends DiGraph {
 	public void changeValueOf(int x, int y, boolean newValue) {
 		int intKey = (x - 1) * order + (y - 1);
 		nodes[intKey].setValue(newValue);
+		if (newValue)
+			value |= (1 << intKey);
+		else
+			value &= ~(1 << intKey);
 	}
 
 	public void updateAllValues() {
+		this.value = 0;
 		for (int i = 0 ; i < nodes.length ; i++) {
 			List<Node> parents = nodes[i].getParents();
 			if (parents.size() == 2) {
@@ -65,6 +70,11 @@ public class KStarDiGraph extends DiGraph {
 			} else {
 				throw new UnsupportedOperationException("Node " + i + " cannot be updated because it has " + parents.size() + "parents (expected 1 or 2).");
 			}
+			this.value += (nodes[i].getValue() ? 1 : 0) * Math.pow(2, i);
+		}
+
+		for (int i = 0 ; i < nodes.length ; i++) {
+			nodes[i].syncPreviousValueWithValue();
 		}
 	}
 }

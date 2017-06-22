@@ -2,19 +2,32 @@ package fr.unice.i3s.mdsc.simubool;
 
 import fr.unice.i3s.mdsc.simubool.graph.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 	public static void main(String[] args) {
 		KStarDiGraph diGraph = new KStarDiGraph(3);
 
-		diGraph.changeValueOf(1, 1, true);
+		int lastRes = 0;
+		int max = (int)Math.pow(2, Math.pow(2, 3));
+		boolean fixedPoint = false;
+		List<Integer> knownResults = new ArrayList<>();
+		knownResults.add(diGraph.value());
 
-		System.out.println(diGraph);
-		String lastRes = "";
-
-		for (int i = 0 ; i < 100000 && !diGraph.toString().equals(lastRes) ; i++) {
-			lastRes = diGraph.toString();
+		while (knownResults.size() != max) {
+			lastRes = diGraph.value();
 			diGraph.updateAllValues();
-			System.out.println(diGraph);
+			if (lastRes == diGraph.value()) {
+				fixedPoint = true;
+				break;
+			} else if (knownResults.contains(diGraph.value())) {
+				break;
+			} else {
+				knownResults.add(diGraph.value());
+			}
 		}
+
+		System.out.println(fixedPoint ? "Point fixe" : "Pas de point fixe");
 	}
 }
