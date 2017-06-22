@@ -1,11 +1,11 @@
-package fr.unice.i3s.mdsc.simubool.graph;
+package fr.unice.i3s.mdsc.simubool.graph.node;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node {
+public abstract class Node {
 	private int id;
-	private boolean value;
+	protected boolean value;
 	private int inDegree;
 	private List<Node> adjacents;
 
@@ -39,6 +39,8 @@ public class Node {
 		return success;
 	}
 
+	public abstract void updateValue();
+
 	/**
 	 * returns the out-degree of u
 	 */
@@ -59,6 +61,6 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return "{"+id+" = "+value+"}";
+		return "{" + id + " = " + value + "}";
 	}
 }

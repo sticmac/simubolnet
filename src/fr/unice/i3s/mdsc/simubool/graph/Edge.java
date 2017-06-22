@@ -1,5 +1,7 @@
 package fr.unice.i3s.mdsc.simubool.graph;
 
+import fr.unice.i3s.mdsc.simubool.graph.node.Node;
+
 /**
  * A class for the edges of a graph.
  */

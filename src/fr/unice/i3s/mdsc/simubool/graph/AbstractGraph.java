@@ -1,5 +1,7 @@
 package fr.unice.i3s.mdsc.simubool.graph;
 
+import fr.unice.i3s.mdsc.simubool.graph.node.Node;
+
 import java.util.*;
 
 /**
@@ -21,9 +23,6 @@ public abstract class AbstractGraph {
 	public AbstractGraph(int n) {
 		nbEdges = 0;
 		nodes = new Node[n];
-		for (int i = 0 ; i < nodes.length ; i++) {
-			nodes[i] = new Node(i, false);
-		}
 	}
 	
 	/**
