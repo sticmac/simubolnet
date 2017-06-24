@@ -10,32 +10,37 @@ public class Main {
 		KStarDiGraph diGraph = new KStarDiGraph(3);
 
 		int max = (int)Math.pow(2, Math.pow(3, 2));
-		int fixedPoints = 0;
-		List<Integer> knownResults = new ArrayList<>();
+		int phi = 0; // value of phi(G)
 
 		for (int i = 0 ; i < max ; i++) {
-			int lastRes = 0;
-			// Values to set in the graph
-			diGraph.setValues(i);
-			// Is this already known?
-			if (!knownResults.contains(diGraph.value())) {
+			diGraph.setFunctions(i);
+			int fixedPoints = 0;
+			List<Integer> knownResults = new ArrayList<>();
+			for (int j = 0; j < max; j++) {
+				int lastRes = 0;
+				// Values to set in the graph
+				diGraph.setValues(j);
 				// Is this a fixed point?
-				while (knownResults.size() != max) {
-					lastRes = diGraph.value();
-					diGraph.updateAllValues();
-					if (lastRes == diGraph.value()) {
-						System.out.println(Integer.toBinaryString(diGraph.value()));
-						fixedPoints++;
-						break;
-					} else if (knownResults.contains(diGraph.value())) {
-						break;
-					} else {
-						knownResults.add(diGraph.value());
+				if (!knownResults.contains(diGraph.value())) {
+					while (knownResults.size() != max) {
+						lastRes = diGraph.value();
+						diGraph.updateAllValues();
+						if (lastRes == diGraph.value()) {
+							fixedPoints++;
+							break;
+						} else if (knownResults.contains(diGraph.value())) {
+							break;
+						} else {
+							knownResults.add(diGraph.value());
+						}
 					}
 				}
 			}
+			phi = Math.max(phi, fixedPoints);
+			System.out.println(i+" : "+fixedPoints + " points fixes.");
 		}
 
-		System.out.println(fixedPoints + " points fixes.");
+		System.out.println("phi(G) = "+phi);
+
 	}
 }

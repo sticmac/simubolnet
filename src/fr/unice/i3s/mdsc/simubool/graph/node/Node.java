@@ -52,7 +52,7 @@ public abstract class Node {
 		if (!contains) {
 			this.adjacents.add(u);
 			u.parents.add(this);
-			this.inDegree++;
+			u.inDegree++;
 		}
 		return !contains;
 	}
@@ -60,28 +60,28 @@ public abstract class Node {
 	public boolean removeAdjacent(Node u) {
 		boolean success = this.adjacents.remove(u) && u.parents.remove(this);
 		if (success)
-			this.inDegree--;
+			u.inDegree--;
 		return success;
 	}
 
 	public abstract void updateValue(boolean... values);
 
 	/**
-	 * returns the out-degree of u
+	 * returns the out-degree of the node
 	 */
-	public int outDegree(Node u) {
-		return u.getAdjacents().size();
+	public int outDegree() {
+		return this.getAdjacents().size();
 	}
 
 	/**
-	 * returns the in-degree of u
+	 * returns the in-degree of the node
 	 */
-	public int inDegree(Node u) {
+	public int inDegree() {
 		return inDegree;
 	}
 
-	public int degree(Node u) {
-		return outDegree(u) + inDegree(u);
+	public int degree() {
+		return outDegree() + inDegree();
 	}
 
 	@Override

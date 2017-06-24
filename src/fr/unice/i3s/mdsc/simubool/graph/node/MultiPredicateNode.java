@@ -15,4 +15,8 @@ public class MultiPredicateNode extends Node {
 		this.previousValue = this.value;
 		this.value = function.test(values);
 	}
+
+	public void setFunction(MultiPredicate function) {
+		this.function = function;
+	}
 }
