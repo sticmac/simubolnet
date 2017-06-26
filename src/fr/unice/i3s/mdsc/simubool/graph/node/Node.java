@@ -33,6 +33,7 @@ public abstract class Node {
 
 	public void setValue(boolean value) {
 		this.value = value;
+		this.syncPreviousValueWithValue();
 	}
 
 	public List<Node> getAdjacents() {
