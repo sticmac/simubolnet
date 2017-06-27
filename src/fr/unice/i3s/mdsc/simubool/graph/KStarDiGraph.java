@@ -2,6 +2,7 @@ package fr.unice.i3s.mdsc.simubool.graph;
 
 import fr.unice.i3s.mdsc.simubool.graph.node.MultiPredicateNode;
 import fr.unice.i3s.mdsc.simubool.graph.node.Node;
+import fr.unice.i3s.mdsc.simubool.util.FunctionsIdSet;
 import fr.unice.i3s.mdsc.simubool.util.function.Functions;
 import fr.unice.i3s.mdsc.simubool.util.function.MultiPredicate;
 
@@ -58,16 +59,15 @@ public class KStarDiGraph extends DiGraph {
 		}
 	}
 
-	public void setFunctions(int entry) {
-		String binaryEntry = Integer.toString(entry,2);
+	public void setFunctions(FunctionsIdSet functions) {
+		int[] values = functions.getValues();
 		int i = 0;
-		for ( ; i < binaryEntry.length() ; i++) {
-			char bit = binaryEntry.charAt(binaryEntry.length() - 1 - i);
+		for ( ; i < values.length ; i++) {
 			int inDegree = this.nodes[i].inDegree();
 			if (inDegree == 1) {
-				this.changeFunctionOf(i, Functions.predicates[(bit - '0')%2]);
+				this.changeFunctionOf(i, Functions.predicates[values[i]]);
 			} else { //inDegree == 2
-				this.changeFunctionOf(i, Functions.biPredicates[bit - '0']);
+				this.changeFunctionOf(i, Functions.biPredicates[values[i]]);
 			}
 		}
 	}
