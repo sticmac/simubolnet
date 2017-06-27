@@ -3,14 +3,12 @@ package fr.unice.i3s.mdsc.simubool;
 import fr.unice.i3s.mdsc.simubool.graph.*;
 import fr.unice.i3s.mdsc.simubool.util.FunctionsIdSet;
 
-import java.util.Arrays;
-
 public class Main {
 	public static void main(String[] args) {
 		int order = 3;
 		KStarDiGraph diGraph = new KStarDiGraph(order);
 
-		int max = (int)Math.pow(2, Math.pow(order, 2));
+		int max = (int)Math.pow(2, order);
 		int phi = 0; // value of phi(G)
 
 		int[] weights = new int[order*order];
@@ -27,14 +25,14 @@ public class Main {
 				// Values to set in the graph
 				diGraph.setValues(j);
 				diGraph.updateAllValues();
-				if (diGraph.value() == j) {
+				if (diGraph.isFixedPoint()) {
+					System.out.println(j);
 					fixedPoints++;
 				}
 			}
 
 			phi = Math.max(phi, fixedPoints);
 			System.out.println(functionsIdSet + " : " + fixedPoints + " points fixes.");
-			functionsIdSet.next();
 		} while (functionsIdSet.next() != 0);
 
 		System.out.println("DONE");

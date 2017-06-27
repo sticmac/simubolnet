@@ -6,6 +6,7 @@ import fr.unice.i3s.mdsc.simubool.util.FunctionsIdSet;
 import fr.unice.i3s.mdsc.simubool.util.function.Functions;
 import fr.unice.i3s.mdsc.simubool.util.function.MultiPredicate;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class KStarDiGraph extends DiGraph {
@@ -51,11 +52,10 @@ public class KStarDiGraph extends DiGraph {
 		String binaryEntry = Integer.toBinaryString(entry);
 		int i = 0;
 		for ( ; i < binaryEntry.length() ; i++) {
-			char bit = binaryEntry.charAt(binaryEntry.length() - 1 - i);
-			this.changeValueOf(i, bit == '1');
+			this.changeValueOf(i+1, i+1, binaryEntry.charAt(binaryEntry.length() - 1 - i) - '0' == 1);
 		}
-		for ( ; i < nodes.length ; i++) {
-			this.changeValueOf(i, false);
+		for( ; i < order ; i++) {
+			this.changeValueOf(i+1, i+1, false);
 		}
 	}
 
@@ -83,20 +83,28 @@ public class KStarDiGraph extends DiGraph {
 
 	public void updateAllValues() {
 		this.value = 0;
-		for (int i = 0 ; i < nodes.length ; i++) {
+		Arrays.stream(new int[]{2, 3, 7, 1, 5, 6}).forEach(i -> {
 			List<Node> parents = nodes[i].getParents();
 			if (parents.size() == 2) {
-				nodes[i].updateValue(parents.get(0).getPreviousValue(), parents.get(1).getPreviousValue());
+				nodes[i].updateValue(parents.get(0).getValue(), parents.get(1).getValue());
 			} else if (parents.size() == 1) {
-				nodes[i].updateValue(parents.get(0).getPreviousValue());
+				nodes[i].updateValue(parents.get(0).getValue());
 			} else {
 				throw new UnsupportedOperationException("Node " + i + " cannot be updated because it has " + parents.size() + "parents (expected 1 or 2).");
 			}
 			this.value += (nodes[i].getValue() ? 1 : 0) * Math.pow(2, i);
-		}
+		});
+	}
 
-		for (Node node : nodes) {
-			node.syncPreviousValueWithValue();
+	public boolean isFixedPoint() {
+		for (int i = 0 ; i < order ; i++) {
+			Node node = nodes[i*(order+1)];
+			boolean value = node.getValue();
+			node.updateValue(node.getParents().get(0).getValue());
+			if (value != node.getValue()) {
+				return false;
+			}
 		}
+		return true;
 	}
 }
