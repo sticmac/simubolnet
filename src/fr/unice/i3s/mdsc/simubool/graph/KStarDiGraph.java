@@ -14,36 +14,36 @@ public class KStarDiGraph extends DiGraph {
 		super(n*n);
 
 		this.order = n;
+		int p = n+1;
+		int o = n-1;
 		int size = n*n;
 
+		//initialize nodes
+		//entered predicates here are defaults ones and not necessary the used ones later.
 		for (int i = 0 ; i < size ; i++) {
-			if (i % 4 == 0) {
+			if (i % p == 0) {
 				nodes[i] = new MultiPredicateNode(i, false, (b) -> b[0]);
 			} else {
 				nodes[i] = new MultiPredicateNode(i, false, (b) -> b[0] || b[1]);
 			}
 		}
 
-		this.addEdge(0,2);
-		this.addEdge(1,0);
-		this.addEdge(2,1);
+		//arcs
+		for (int i = 0 ; i <= o ; i++) {
+			//internal
+			for (int j = o ; j >= 1 ; j--) {
+				this.addEdge(i*n + j, i*n + j - 1);
+			}
+			this.addEdge(i*n, i*n + o);
 
-		this.addEdge(4,3);
-		this.addEdge(3,5);
-		this.addEdge(5,4);
+			//external
+			for (int j = 0 ; j <= o ; j++) {
+				if (j != i) {
+					this.addEdge(i*p, i + j*n);
+				}
+			}
+		}
 
-		this.addEdge(8,7);
-		this.addEdge(6,8);
-		this.addEdge(7,6);
-
-		this.addEdge(0,3);
-		this.addEdge(0,6);
-
-		this.addEdge(4,1);
-		this.addEdge(4,7);
-
-		this.addEdge(8,2);
-		this.addEdge(8,5);
 	}
 
 	public void setValues(int entry) {
@@ -59,13 +59,13 @@ public class KStarDiGraph extends DiGraph {
 	}
 
 	public void setFunctions(int entry) {
-		String binaryEntry = Integer.toBinaryString(entry);
+		String binaryEntry = Integer.toString(entry,2);
 		int i = 0;
 		for ( ; i < binaryEntry.length() ; i++) {
 			char bit = binaryEntry.charAt(binaryEntry.length() - 1 - i);
 			int inDegree = this.nodes[i].inDegree();
 			if (inDegree == 1) {
-				this.changeFunctionOf(i, Functions.predicates[bit - '0']);
+				this.changeFunctionOf(i, Functions.predicates[(bit - '0')%2]);
 			} else { //inDegree == 2
 				this.changeFunctionOf(i, Functions.biPredicates[bit - '0']);
 			}

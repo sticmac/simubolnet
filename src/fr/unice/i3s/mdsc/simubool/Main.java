@@ -4,9 +4,10 @@ import fr.unice.i3s.mdsc.simubool.graph.*;
 
 public class Main {
 	public static void main(String[] args) {
-		KStarDiGraph diGraph = new KStarDiGraph(3);
+		int order = 3;
+		KStarDiGraph diGraph = new KStarDiGraph(order);
 
-		int max = (int)Math.pow(2, Math.pow(3, 2));
+		int max = (int)Math.pow(2, Math.pow(order, 2));
 		int phi = 0; // value of phi(G)
 
 		for (int i = 0 ; i < max ; i++) {
