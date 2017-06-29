@@ -22,7 +22,11 @@ public class FunctionsIdSet {
 
 	@Override
 	public String toString() {
-		return Arrays.toString(values);
+		StringBuilder stringBuilder = new StringBuilder();
+		for (int i : this.values) {
+			stringBuilder.append(i);
+		}
+		return stringBuilder.toString();
 	}
 
 	private void increaseValue(int n) {

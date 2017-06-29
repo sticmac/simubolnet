@@ -6,6 +6,7 @@ import fr.unice.i3s.mdsc.simubool.util.FunctionsIdSet;
 public class Main {
 	public static void main(String[] args) {
 		int order = 3;
+		int objective = order + 1;
 		KStarDiGraph diGraph = new KStarDiGraph(order);
 
 		int max = (int)Math.pow(2, order);
@@ -15,6 +16,7 @@ public class Main {
 		for (int i = 0 ; i < weights.length ; i++) {
 			weights[i] = i%(order+1) == 0 ? 2 : 10;
 		}
+
 		FunctionsIdSet functionsIdSet = new FunctionsIdSet(weights);
 
 		do {
@@ -26,17 +28,21 @@ public class Main {
 				diGraph.setValues(j);
 				diGraph.updateAllValues();
 				if (diGraph.isFixedPoint()) {
-					System.out.println(j);
 					fixedPoints++;
 				}
 			}
 
+			if (fixedPoints >= objective) {
+				char[] chars = functionsIdSet.toString().toCharArray();
+				chars[0] = chars[0] == '0' ? 'a' : 'b';
+				chars[4] = chars[4] == '0' ? 'a' : 'b';
+				chars[8] = chars[8] == '0' ? 'a' : 'b';
+				System.out.println(new String(chars));
+			}
 			phi = Math.max(phi, fixedPoints);
-			System.out.println(functionsIdSet + " : " + fixedPoints + " points fixes.");
 		} while (functionsIdSet.next() != 0);
 
 		System.out.println("DONE");
 		System.out.println("phi(G) = "+phi);
-
 	}
 }
