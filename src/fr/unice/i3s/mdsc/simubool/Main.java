@@ -19,6 +19,7 @@ public class Main {
 
 		FunctionsIdSet functionsIdSet = new FunctionsIdSet(weights);
 
+		long compt = 0;
 		do {
 			diGraph.setFunctions(functionsIdSet);
 			int fixedPoints = 0;
@@ -40,6 +41,11 @@ public class Main {
 				System.out.println(new String(chars));
 			}
 			phi = Math.max(phi, fixedPoints);
+			compt++;
+			if (compt == 1000000) {
+				System.err.println(functionsIdSet+": "+phi);
+				compt = 0;
+			}
 		} while (functionsIdSet.next() != 0);
 
 		System.out.println("DONE");

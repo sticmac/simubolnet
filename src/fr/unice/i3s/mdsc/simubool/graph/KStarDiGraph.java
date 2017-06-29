@@ -7,7 +7,9 @@ import fr.unice.i3s.mdsc.simubool.util.function.Functions;
 import fr.unice.i3s.mdsc.simubool.util.function.MultiPredicate;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class KStarDiGraph extends DiGraph {
 	private int order;
@@ -82,18 +84,28 @@ public class KStarDiGraph extends DiGraph {
 	}
 
 	public void updateAllValues() {
-		this.value = 0;
-		Arrays.stream(new int[]{2, 3, 7, 1, 5, 6}).forEach(i -> {
-			List<Node> parents = nodes[i].getParents();
-			if (parents.size() == 2) {
-				nodes[i].updateValue(parents.get(0).getValue(), parents.get(1).getValue());
-			} else if (parents.size() == 1) {
-				nodes[i].updateValue(parents.get(0).getValue());
+		Queue<Node> todo = new LinkedList<>();
+		for (int i = 0 ; i < order ; i++) {
+			todo.add(nodes[i*(order+1)].getAdjacents().get(0));
+		}
+		while (!todo.isEmpty()) {
+			Node node = todo.poll();
+			List<Node> parents = node.getParents();
+
+			if (parents.size() == 2) { // indegree = 2, not representing
+				node.updateValue(parents.get(0).getValue(), parents.get(1).getValue());
+			} else if (parents.size() == 1) { // indegree = 1, representing
+				node.updateValue(parents.get(0).getValue());
 			} else {
-				throw new UnsupportedOperationException("Node " + i + " cannot be updated because it has " + parents.size() + "parents (expected 1 or 2).");
+				throw new UnsupportedOperationException("Node " + node.getId() + " cannot be updated because it has " + parents.size() + "parents (expected 1 or 2).");
 			}
-			this.value += (nodes[i].getValue() ? 1 : 0) * Math.pow(2, i);
-		});
+
+			// add first adjacent?
+			Node adj = node.getAdjacents().get(0);
+			if (adj.getId() % 4 != 0) {
+				todo.add(adj);
+			}
+		}
 	}
 
 	public boolean isFixedPoint() {

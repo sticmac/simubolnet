@@ -16,8 +16,6 @@ public abstract class AbstractGraph {
 	// the adjacency list
 	protected Node[] nodes;
 
-	protected int value;
-
 	/**
 	 * builds an abstract graph with n vertices
 	 */
@@ -78,16 +76,8 @@ public abstract class AbstractGraph {
 		removeEdge(nodes[u], nodes[v]);
 	}
 
-	public int value() {
-		return value;
-	}
-
 	public void changeValueOf(int index, boolean newValue) {
 		nodes[index].setValue(newValue);
-		if (newValue)
-			value |= (1 << index);
-		else
-			value &= ~(1 << index);
 	}
 
 	/**
