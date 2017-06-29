@@ -14,8 +14,6 @@ public class Functions {
 			booleans -> !booleans[0] && !booleans[1],
 			booleans -> !booleans[0] || booleans[1],
 			booleans -> booleans[0] || !booleans[1],
-			booleans -> !booleans[0] || !booleans[1],
-			booleans -> (!booleans[0] && booleans[1]) || (booleans[0] && !booleans[1]),
-			booleans -> (!booleans[0] && !booleans[1]) || (booleans[0] && booleans[1])
+			booleans -> !booleans[0] || !booleans[1]
 	};
 }

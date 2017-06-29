@@ -14,7 +14,7 @@ public class Main {
 
 		int[] weights = new int[order*order];
 		for (int i = 0 ; i < weights.length ; i++) {
-			weights[i] = i%(order+1) == 0 ? 2 : 10;
+			weights[i] = i%(order+1) == 0 ? 2 : 8;
 		}
 
 		FunctionsIdSet functionsIdSet = new FunctionsIdSet(weights);
@@ -34,9 +34,9 @@ public class Main {
 
 			if (fixedPoints >= objective) {
 				char[] chars = functionsIdSet.toString().toCharArray();
-				chars[0] = chars[0] == '0' ? 'a' : 'b';
-				chars[4] = chars[4] == '0' ? 'a' : 'b';
-				chars[8] = chars[8] == '0' ? 'a' : 'b';
+				for (int i = 0 ; i < order ; i++) {
+					chars[i * (order + 1)] = chars[i * (order + 1)] == '0' ? 'a' : 'b';
+				}
 				System.out.println(new String(chars));
 			}
 			phi = Math.max(phi, fixedPoints);
