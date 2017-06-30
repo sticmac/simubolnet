@@ -13,7 +13,12 @@ public class DiGraph extends AbstractGraph {
 	public DiGraph(int n) {
 		super(n);
 	}
-	
+
+
+	public DiGraph(DiGraph a) {
+		super(a);
+	}
+
 	@Override
 	public void addEdge(Node u, Node v) {
 		u.addAdjacent(v);

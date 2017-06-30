@@ -6,9 +6,17 @@ public class FunctionsIdSet {
 	private int[] values;
 	private int[] maxes;
 
-	public FunctionsIdSet(int[] maxes) {
+	public FunctionsIdSet(int[] values, int maxes[]) {
+		this.values = values;
 		this.maxes = maxes;
-		this.values = new int[maxes.length];
+	}
+
+	public FunctionsIdSet(int[] maxes) {
+		this(new int[maxes.length], maxes);
+	}
+
+	public FunctionsIdSet(FunctionsIdSet a) {
+		this(Arrays.copyOf(a.values, a.values.length), Arrays.copyOf(a.maxes, a.maxes.length));
 	}
 
 	public int[] getValues() {

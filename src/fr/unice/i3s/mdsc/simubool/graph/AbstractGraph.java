@@ -23,6 +23,11 @@ public abstract class AbstractGraph {
 		nbEdges = 0;
 		nodes = new Node[n];
 	}
+
+	public AbstractGraph(AbstractGraph a) {
+		nbEdges = a.nbEdges;
+		nodes = Arrays.copyOf(a.nodes, a.nodes.length);
+	}
 	
 	/**
 	 * returns the number of vertices

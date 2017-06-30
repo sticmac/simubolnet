@@ -6,7 +6,6 @@ import fr.unice.i3s.mdsc.simubool.util.FunctionsIdSet;
 import fr.unice.i3s.mdsc.simubool.util.function.Functions;
 import fr.unice.i3s.mdsc.simubool.util.function.MultiPredicate;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -48,6 +47,14 @@ public class KStarDiGraph extends DiGraph {
 			}
 		}
 
+	}
+
+	public KStarDiGraph(KStarDiGraph kStarDiGraph) {
+		this(kStarDiGraph.order);
+	}
+
+	public int getOrder() {
+		return order;
 	}
 
 	public void setValues(int entry) {
