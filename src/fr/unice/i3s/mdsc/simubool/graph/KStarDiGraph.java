@@ -126,4 +126,10 @@ public class KStarDiGraph extends DiGraph {
 		}
 		return true;
 	}
+
+	public boolean isFixedPoint(int value) {
+		this.setValues(value);
+		this.updateAllValues();
+		return this.isFixedPoint();
+	}
 }

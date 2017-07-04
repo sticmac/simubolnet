@@ -4,20 +4,19 @@ import fr.unice.i3s.mdsc.simubool.graph.KStarDiGraph;
 import fr.unice.i3s.mdsc.simubool.util.FunctionsIdSet;
 
 import java.util.Stack;
+import java.util.concurrent.RecursiveTask;
 
-public class FunctionTestThread extends Thread {
+public class FunctionTestThread extends RecursiveTask<Integer> {
 	private KStarDiGraph diGraph;
 	private FunctionsIdSet functionsIdSet;
-	private Stack<Integer> results;
 
-	public FunctionTestThread(KStarDiGraph kStarDiGraph, FunctionsIdSet functionsIdSet, Stack<Integer> results) {
+	public FunctionTestThread(KStarDiGraph kStarDiGraph, FunctionsIdSet functionsIdSet) {
 		this.diGraph = new KStarDiGraph(kStarDiGraph);
 		this.functionsIdSet = new FunctionsIdSet(functionsIdSet);
-		this.results = results;
 	}
 
 	@Override
-	public void run() {
+	public Integer compute() {
 		int order = diGraph.getOrder();
 		int objective = order + 1;
 		int max = (int)Math.pow(2, order);
@@ -26,10 +25,7 @@ public class FunctionTestThread extends Thread {
 		int fixedPoints = 0;
 
 		for (int j = 0; j < max; j++) {
-			// Values to set in the graph
-			diGraph.setValues(j);
-			diGraph.updateAllValues();
-			if (diGraph.isFixedPoint()) {
+			if (diGraph.isFixedPoint(j)) {
 				fixedPoints++;
 			}
 		}
@@ -42,6 +38,6 @@ public class FunctionTestThread extends Thread {
 			System.out.println(new String(chars));
 		}
 
-		results.push(fixedPoints);
+		return fixedPoints;
 	}
 }
