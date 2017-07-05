@@ -1,7 +1,7 @@
 package fr.unice.i3s.mdsc.simubool;
 
 import fr.unice.i3s.mdsc.simubool.graph.*;
-import fr.unice.i3s.mdsc.simubool.util.FunctionsIdSet;
+import fr.unice.i3s.mdsc.simubool.util.function.Functions;
 
 public class Main {
 	public static void main(String[] args) {
@@ -17,11 +17,9 @@ public class Main {
 			weights[i] = i%(order+1) == 0 ? 2 : 8;
 		}
 
-		FunctionsIdSet functionsIdSet = new FunctionsIdSet(weights);
-
 		long compt = 0;
-		do {
-			diGraph.setFunctions(functionsIdSet);
+		for (int functions = 0 ; functions < Math.pow(Functions.biPredicates.length, order*(order-1)) ; functions++) {
+			diGraph.setFunctions(functions);
 			int fixedPoints = 0;
 
 			for (int j = 0; j < max; j++) {
@@ -34,19 +32,15 @@ public class Main {
 			}
 
 			if (fixedPoints >= objective) {
-				char[] chars = functionsIdSet.toString().toCharArray();
-				for (int i = 0 ; i < order ; i++) {
-					chars[i * (order + 1)] = chars[i * (order + 1)] == '0' ? 'a' : 'b';
-				}
-				System.out.println(new String(chars));
+				System.out.println(functions);
 			}
 			phi = Math.max(phi, fixedPoints);
 			compt++;
 			if (compt == 1000000) {
-				System.err.println(functionsIdSet+": "+phi);
+				System.err.println(functions+": "+phi);
 				compt = 0;
 			}
-		} while (functionsIdSet.next() != 0);
+		}
 
 		System.out.println("DONE");
 		System.out.println("phi(G) = "+phi);
