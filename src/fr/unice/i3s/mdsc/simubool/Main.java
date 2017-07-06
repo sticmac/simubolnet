@@ -5,11 +5,13 @@ import java.util.concurrent.ForkJoinPool;
 public class Main {
 	public static void main(String[] args) {
 		int order = 3;
+		if (args.length > 0) {
+			order = Integer.parseInt(args[0]);
+		}
 
 		int procs = Runtime.getRuntime().availableProcessors();
 
-		//ExecutorService pool = Executors.newFixedThreadPool(procs);
-		ForkJoinPool pool = new ForkJoinPool(procs);
+		ForkJoinPool pool = new ForkJoinPool(procs/4); //not all processors
 
 		ComputeFixedPoints computeFixedPoints = new ComputeFixedPoints(order, procs);
 		int phi = pool.invoke(computeFixedPoints);
