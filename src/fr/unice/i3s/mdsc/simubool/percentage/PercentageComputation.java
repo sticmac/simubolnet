@@ -9,7 +9,7 @@ public class PercentageComputation extends Thread {
 		this.run = true;
 	}
 
-	public void desactivate() {
+	public void deactivate() {
 		this.run = false;
 	}
 
