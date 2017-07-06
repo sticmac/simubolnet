@@ -32,7 +32,7 @@ public class Main {
 			}
 
 			if (fixedPoints >= objective) {
-				System.out.println(functions);
+				System.out.println(functions+": "+fixedPoints);
 			}
 			phi = Math.max(phi, fixedPoints);
 			compt++;

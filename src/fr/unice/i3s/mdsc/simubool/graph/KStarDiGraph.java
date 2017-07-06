@@ -49,8 +49,6 @@ public class KStarDiGraph extends DiGraph {
 				}
 			}
 		}
-
-		System.out.println(this);
 	}
 
 	public void setValues(int entry) {
