@@ -1,6 +1,8 @@
 package fr.unice.i3s.mdsc.simubool;
 
 import fr.unice.i3s.mdsc.simubool.graph.KStarDiGraph;
+import fr.unice.i3s.mdsc.simubool.percentage.PercentageComputation;
+import fr.unice.i3s.mdsc.simubool.percentage.PercentageHandler;
 import fr.unice.i3s.mdsc.simubool.util.function.Functions;
 
 import java.util.LinkedList;
@@ -11,14 +13,14 @@ import java.util.concurrent.RecursiveTask;
 public class ComputeFixedPoints extends RecursiveTask<Integer> {
 	private int order;
 	private Queue<ForkJoinTask<Integer>> threadsQueue;
-	private final int interval;
+	private final long interval;
 	private final int procs;
-	private final int nbFunctions;
+	private final long nbFunctions;
 
 	public ComputeFixedPoints(int order, int procs) {
 		this.order = order;
 		this.threadsQueue = new LinkedList<>();
-		this.nbFunctions = (int)Math.pow(Functions.biPredicates.length, order*(order-1));
+		this.nbFunctions = (long)Math.pow(Functions.biPredicates.length, order*(order-1));
 		this.interval = nbFunctions / procs;
 		this.procs = procs;
 	}
@@ -33,8 +35,13 @@ public class ComputeFixedPoints extends RecursiveTask<Integer> {
 		System.out.println(nbFunctions+" functions to test.");
 		System.out.println("BEGIN");
 
+		PercentageHandler percentageHandler = new PercentageHandler(0, nbFunctions);
+
+		PercentageComputation percentageComputation = new PercentageComputation(percentageHandler);
+		percentageComputation.start();
+
 		for (int functions = 0 ; functions < this.procs ; functions++) {
-			ForkJoinTask<Integer> thread = new FunctionTestThread(diGraph,functions * interval, (functions + 1) * interval);
+			ForkJoinTask<Integer> thread = new FunctionTestThread(diGraph,functions * interval, (functions + 1) * interval, percentageHandler);
 			thread.fork();
 			threadsQueue.add(thread);
 		}
@@ -42,6 +49,8 @@ public class ComputeFixedPoints extends RecursiveTask<Integer> {
 		while (!threadsQueue.isEmpty()) {
 			phi = Math.max(threadsQueue.poll().join(), phi);
 		}
+
+		percentageComputation.desactivate();
 
 		return phi;
 	}

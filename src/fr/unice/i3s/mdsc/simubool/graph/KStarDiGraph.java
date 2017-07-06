@@ -70,8 +70,8 @@ public class KStarDiGraph extends DiGraph {
 		}
 	}
 
-	public void setFunctions(int functions) {
-		String entry = Integer.toString(functions, Functions.biPredicates.length);
+	public void setFunctions(long functions) {
+		String entry = Long.toString(functions, Functions.biPredicates.length);
 		int i = 0;
 		for ( ; i < entry.length() ; i++) {
 			this.changeFunctionOf(i, Functions.biPredicates[entry.charAt(i) - '0']);
