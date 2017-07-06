@@ -2,51 +2,53 @@ package fr.unice.i3s.mdsc.simubool.graph;
 
 import fr.unice.i3s.mdsc.simubool.graph.node.MultiPredicateNode;
 import fr.unice.i3s.mdsc.simubool.graph.node.Node;
-import fr.unice.i3s.mdsc.simubool.util.FunctionsIdSet;
+import fr.unice.i3s.mdsc.simubool.util.Pair;
 import fr.unice.i3s.mdsc.simubool.util.function.Functions;
 import fr.unice.i3s.mdsc.simubool.util.function.MultiPredicate;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class KStarDiGraph extends DiGraph {
 	private int order;
+	private Map<Pair<Integer, Integer>, Integer> indexes;
 
 	public KStarDiGraph(int n) {
-		super(n*n);
+		super(n*(n-1));
 
+		this.indexes = new HashMap<>();
 		this.order = n;
-		int p = n+1;
-		int o = n-1;
-		int size = n*n;
+		int size = n*(n-1);
+
+		//affiliate couples and ids
+		for (int i = 1 ; i <= order ; i++) {
+			indexes.put(new Pair<>(i, i), (i-1)*(order-1));
+			indexes.put(new Pair<>(i, i+1 <= order ? i+1 : i+1-order), (i-1) * (order-1));
+			for (int j = 2 ; j < order ; j++) {
+				indexes.put(new Pair<>(i, i + j <= order ? i + j : i + j - order), (i - 1) * (order - 1) + (j - 1));
+			}
+		}
 
 		//initialize nodes
 		//entered predicates here are defaults ones and not necessary the used ones later.
 		for (int i = 0 ; i < size ; i++) {
-			if (i % p == 0) {
-				nodes[i] = new MultiPredicateNode(i, false, (b) -> b[0]);
-			} else {
-				nodes[i] = new MultiPredicateNode(i, false, (b) -> b[0] || b[1]);
-			}
+			nodes[i] = new MultiPredicateNode(i, false, Functions.biPredicates[0]);
 		}
 
 		//arcs
-		for (int i = 0 ; i <= o ; i++) {
+		for (int i = 1 ; i <= order ; i++) {
+			int index = indexes.get(new Pair<>(i, i));
+
 			//internal
-			for (int j = o ; j >= 1 ; j--) {
-				this.addEdge(i*n + j, i*n + j - 1);
-			}
-			this.addEdge(i*n, i*n + o);
+			this.addEdge(index, index+1);
+			this.addEdge(index+1, index);
 
 			//external
-			for (int j = 0 ; j <= o ; j++) {
+			for (int j = 1 ; j <= order ; j++) {
 				if (j != i) {
-					this.addEdge(i*p, i + j*n);
+					this.addEdge(index, indexes.get(new Pair<>(j, i)));
 				}
 			}
 		}
-
 	}
 
 	public KStarDiGraph(KStarDiGraph kStarDiGraph) {
@@ -68,21 +70,16 @@ public class KStarDiGraph extends DiGraph {
 		}
 	}
 
-	public void setFunctions(FunctionsIdSet functions) {
-		int[] values = functions.getValues();
+	public void setFunctions(int functions) {
+		String entry = Integer.toString(functions, Functions.biPredicates.length);
 		int i = 0;
-		for ( ; i < values.length ; i++) {
-			int inDegree = this.nodes[i].inDegree();
-			if (inDegree == 1) {
-				this.changeFunctionOf(i, Functions.predicates[values[i]]);
-			} else { //inDegree == 2
-				this.changeFunctionOf(i, Functions.biPredicates[values[i]]);
-			}
+		for ( ; i < entry.length() ; i++) {
+			this.changeFunctionOf(i, Functions.biPredicates[entry.charAt(i) - '0']);
 		}
 	}
 
 	public void changeValueOf(int x, int y, boolean newValue) {
-		int intKey = (x - 1) * order + (y - 1);
+		int intKey = indexes.get(new Pair<>(x, y));
 		this.changeValueOf(intKey, newValue);
 	}
 
@@ -93,7 +90,7 @@ public class KStarDiGraph extends DiGraph {
 	public void updateAllValues() {
 		Queue<Node> todo = new LinkedList<>();
 		for (int i = 0 ; i < order ; i++) {
-			todo.add(nodes[i*(order+1)].getAdjacents().get(0));
+			todo.add(nodes[i*(order-1)].getAdjacents().get(0));
 		}
 		while (!todo.isEmpty()) {
 			Node node = todo.poll();
@@ -101,25 +98,17 @@ public class KStarDiGraph extends DiGraph {
 
 			if (parents.size() == 2) { // indegree = 2, not representing
 				node.updateValue(parents.get(0).getValue(), parents.get(1).getValue());
-			} else if (parents.size() == 1) { // indegree = 1, representing
-				node.updateValue(parents.get(0).getValue());
 			} else {
 				throw new UnsupportedOperationException("Node " + node.getId() + " cannot be updated because it has " + parents.size() + "parents (expected 1 or 2).");
-			}
-
-			// add first adjacent?
-			Node adj = node.getAdjacents().get(0);
-			if (adj.getId() % 4 != 0) {
-				todo.add(adj);
 			}
 		}
 	}
 
 	public boolean isFixedPoint() {
 		for (int i = 0 ; i < order ; i++) {
-			Node node = nodes[i*(order+1)];
+			Node node = nodes[i*(order-1)];
 			boolean value = node.getValue();
-			node.updateValue(node.getParents().get(0).getValue());
+			node.updateValue(node.getParents().get(0).getValue(), node.getParents().get(1).getValue());
 			if (value != node.getValue()) {
 				return false;
 			}
