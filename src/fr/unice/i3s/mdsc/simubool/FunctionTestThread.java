@@ -8,31 +8,38 @@ import java.util.concurrent.RecursiveTask;
 public class FunctionTestThread extends RecursiveTask<Integer> {
 	private KStarDiGraph diGraph;
 	private int functions;
+	private final int limit;
 
-	public FunctionTestThread(KStarDiGraph kStarDiGraph, int functions) {
+	public FunctionTestThread(KStarDiGraph kStarDiGraph, int functions, int limit) {
 		this.diGraph = new KStarDiGraph(kStarDiGraph);
 		this.functions = functions;
+		this.limit = limit;
 	}
 
 	@Override
 	public Integer compute() {
-		int order = diGraph.getOrder();
-		int objective = order + 1;
-		int max = (int)Math.pow(2, order);
+		int phi = 0;
 
-		diGraph.setFunctions(functions);
-		int fixedPoints = 0;
+		for (int i = functions ; i < limit ; i++) {
+			int order = diGraph.getOrder();
+			int objective = order + 1;
+			int max = (int) Math.pow(2, order);
 
-		for (int j = 0; j < max; j++) {
-			if (diGraph.isFixedPoint(j)) {
-				fixedPoints++;
+			diGraph.setFunctions(i);
+			int fixedPoints = 0;
+
+			for (int j = 0; j < max; j++) {
+				if (diGraph.isFixedPoint(j)) {
+					fixedPoints++;
+				}
 			}
-		}
 
-		if (fixedPoints >= objective) {
-			System.out.println(functions+": "+fixedPoints);
-		}
+			if (fixedPoints >= objective) {
+				System.out.println(i + ": " + fixedPoints);
+			}
 
-		return fixedPoints;
+			phi = Math.max(phi, fixedPoints);
+		}
+		return phi;
 	}
 }

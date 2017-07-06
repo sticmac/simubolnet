@@ -11,7 +11,7 @@ public class Main {
 		//ExecutorService pool = Executors.newFixedThreadPool(procs);
 		ForkJoinPool pool = new ForkJoinPool(procs);
 
-		ComputeFixedPoints computeFixedPoints = new ComputeFixedPoints(order);
+		ComputeFixedPoints computeFixedPoints = new ComputeFixedPoints(order, procs);
 		int phi = pool.invoke(computeFixedPoints);
 
 		System.out.println("DONE");
