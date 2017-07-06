@@ -34,10 +34,6 @@ public class FunctionTestThread extends RecursiveTask<Integer> {
 				}
 			}
 
-			if (fixedPoints >= objective) {
-				System.out.println(i + ": " + fixedPoints);
-			}
-
 			phi = Math.max(phi, fixedPoints);
 		}
 		return phi;
