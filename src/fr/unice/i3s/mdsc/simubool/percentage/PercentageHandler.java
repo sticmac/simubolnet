@@ -1,27 +1,33 @@
 package fr.unice.i3s.mdsc.simubool.percentage;
 
-public class PercentageHandler {
-	private double debut;
-	private double end;
-	private double current;
+import java.math.BigDecimal;
 
-	public PercentageHandler(long debut, long end) {
+public class PercentageHandler {
+	private BigDecimal debut;
+	private BigDecimal end;
+	private BigDecimal current;
+
+	public PercentageHandler(BigDecimal debut, BigDecimal end) {
 		this.debut = debut;
-		this.current = debut;
+		this.current = debut.setScale(5, BigDecimal.ROUND_HALF_DOWN);
 		this.end = end;
 	}
 
-	public void add(int i) {
-		if (current + i <= end) {
-			current += i;
+	public void add(BigDecimal i) {
+		if (current.add(i).compareTo(end) < 0) {
+			current = current.add(i);
 		}
 	}
 
 	public void incr() {
-		this.add(1);
+		this.add(BigDecimal.ONE);
 	}
 
-	public double getPercentage() {
-		return ((current - debut) / (end - debut)) * 100;
+	public BigDecimal getPercentage() {
+		return current.subtract(debut).divide(end.subtract(debut), BigDecimal.ROUND_HALF_DOWN).multiply(BigDecimal.valueOf(100));
+	}
+
+	public double getDoublePercentage() {
+		return this.getPercentage().doubleValue();
 	}
 }

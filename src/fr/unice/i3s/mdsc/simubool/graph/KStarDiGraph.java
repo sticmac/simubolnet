@@ -6,6 +6,7 @@ import fr.unice.i3s.mdsc.simubool.util.Pair;
 import fr.unice.i3s.mdsc.simubool.util.function.Functions;
 import fr.unice.i3s.mdsc.simubool.util.function.MultiPredicate;
 
+import java.math.BigInteger;
 import java.util.*;
 
 public class KStarDiGraph extends DiGraph {
@@ -70,8 +71,8 @@ public class KStarDiGraph extends DiGraph {
 		}
 	}
 
-	public void setFunctions(long functions) {
-		String entry = Long.toString(functions, Functions.biPredicates.length);
+	public void setFunctions(BigInteger functions) {
+		String entry = functions.toString(Functions.biPredicates.length);
 		int i = 0;
 		for ( ; i < entry.length() ; i++) {
 			this.changeFunctionOf(i, Functions.biPredicates[entry.charAt(i) - '0']);

@@ -5,7 +5,8 @@ import fr.unice.i3s.mdsc.simubool.percentage.PercentageComputation;
 import fr.unice.i3s.mdsc.simubool.percentage.PercentageHandler;
 import fr.unice.i3s.mdsc.simubool.util.function.Functions;
 
-import javax.swing.text.html.Option;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
@@ -15,16 +16,16 @@ import java.util.concurrent.RecursiveTask;
 public class ComputeFixedPoints extends RecursiveTask<Integer> {
 	private int order;
 	private Queue<ForkJoinTask<Integer>> threadsQueue;
-	private final long interval;
+	private final BigInteger interval;
 	private final int procs;
-	private final long nbFunctions;
+	private final BigInteger nbFunctions;
 	private final boolean displayPercentage;
 
 	public ComputeFixedPoints(int order, int procs, boolean displayPercentage) {
 		this.order = order;
 		this.threadsQueue = new LinkedList<>();
-		this.nbFunctions = (long)Math.pow(Functions.biPredicates.length, order*(order-1));
-		this.interval = nbFunctions / procs;
+		this.nbFunctions = BigInteger.valueOf(Functions.biPredicates.length).pow(order*(order-1));
+		this.interval = nbFunctions.divide(BigInteger.valueOf(procs));
 		this.procs = procs;
 		this.displayPercentage = displayPercentage;
 	}
@@ -42,14 +43,15 @@ public class ComputeFixedPoints extends RecursiveTask<Integer> {
 		Optional<PercentageHandler> percentageHandler = Optional.empty();
 		PercentageComputation percentageComputation = null;
 		if (displayPercentage) {
-			percentageHandler = Optional.of(new PercentageHandler(0, nbFunctions));
+			percentageHandler = Optional.of(new PercentageHandler(BigDecimal.ZERO, new BigDecimal(nbFunctions)));
 
 			percentageComputation = new PercentageComputation(percentageHandler.get());
 			percentageComputation.start();
 		}
 
 		for (int functions = 0; functions < this.procs; functions++) {
-			ForkJoinTask<Integer> thread = new FunctionTestThread(diGraph, functions * interval, (functions + 1) * interval, percentageHandler);
+			BigInteger bigFunctions = BigInteger.valueOf(functions);
+			ForkJoinTask<Integer> thread = new FunctionTestThread(diGraph, interval.multiply(bigFunctions), interval.multiply(bigFunctions.add(BigInteger.ONE)), percentageHandler);
 			thread.fork();
 			threadsQueue.add(thread);
 		}
