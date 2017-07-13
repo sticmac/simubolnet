@@ -1,4 +1,4 @@
-package fr.unice.i3s.mdsc.simubool.util.function;
+package fr.unice.i3s.mdsc.simuboolnet.util.function;
 
 /**
  * Sets of needed <code>MultiPredicate</code> stored in static array.

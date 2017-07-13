@@ -1,10 +1,10 @@
-package fr.unice.i3s.mdsc.simubool.graph;
+package fr.unice.i3s.mdsc.simuboolnet.graph;
 
-import fr.unice.i3s.mdsc.simubool.graph.node.MultiPredicateNode;
-import fr.unice.i3s.mdsc.simubool.graph.node.Node;
-import fr.unice.i3s.mdsc.simubool.util.Pair;
-import fr.unice.i3s.mdsc.simubool.util.function.Functions;
-import fr.unice.i3s.mdsc.simubool.util.function.MultiPredicate;
+import fr.unice.i3s.mdsc.simuboolnet.graph.node.MultiPredicateNode;
+import fr.unice.i3s.mdsc.simuboolnet.graph.node.Node;
+import fr.unice.i3s.mdsc.simuboolnet.util.Pair;
+import fr.unice.i3s.mdsc.simuboolnet.util.function.Functions;
+import fr.unice.i3s.mdsc.simuboolnet.util.function.MultiPredicate;
 
 import java.math.BigInteger;
 import java.util.*;

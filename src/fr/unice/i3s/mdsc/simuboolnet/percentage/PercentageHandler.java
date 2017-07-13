@@ -1,4 +1,4 @@
-package fr.unice.i3s.mdsc.simubool.percentage;
+package fr.unice.i3s.mdsc.simuboolnet.percentage;
 
 import java.math.BigDecimal;
 

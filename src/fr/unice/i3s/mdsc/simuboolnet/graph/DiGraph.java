@@ -1,6 +1,6 @@
-package fr.unice.i3s.mdsc.simubool.graph;
+package fr.unice.i3s.mdsc.simuboolnet.graph;
 
-import fr.unice.i3s.mdsc.simubool.graph.node.Node;
+import fr.unice.i3s.mdsc.simuboolnet.graph.node.Node;
 
 /**
  * A class for directed graph

@@ -1,9 +1,9 @@
-package fr.unice.i3s.mdsc.simubool;
+package fr.unice.i3s.mdsc.simuboolnet;
 
-import fr.unice.i3s.mdsc.simubool.graph.KStarDiGraph;
-import fr.unice.i3s.mdsc.simubool.percentage.PercentageComputation;
-import fr.unice.i3s.mdsc.simubool.percentage.PercentageHandler;
-import fr.unice.i3s.mdsc.simubool.util.function.Functions;
+import fr.unice.i3s.mdsc.simuboolnet.graph.KStarDiGraph;
+import fr.unice.i3s.mdsc.simuboolnet.percentage.PercentageComputation;
+import fr.unice.i3s.mdsc.simuboolnet.percentage.PercentageHandler;
+import fr.unice.i3s.mdsc.simuboolnet.util.function.Functions;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

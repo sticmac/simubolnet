@@ -1,4 +1,4 @@
-package fr.unice.i3s.mdsc.simubool.util;
+package fr.unice.i3s.mdsc.simuboolnet.util;
 
 /**
  * Pair of two objects.

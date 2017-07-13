@@ -1,6 +1,6 @@
-package fr.unice.i3s.mdsc.simubool.graph.node;
+package fr.unice.i3s.mdsc.simuboolnet.graph.node;
 
-import fr.unice.i3s.mdsc.simubool.util.function.MultiPredicate;
+import fr.unice.i3s.mdsc.simuboolnet.util.function.MultiPredicate;
 
 /**
  * A <code>Node</code> with an assigned <code>MultiPredicate</code>.

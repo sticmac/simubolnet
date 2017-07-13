@@ -1,4 +1,4 @@
-package fr.unice.i3s.mdsc.simubool;
+package fr.unice.i3s.mdsc.simuboolnet;
 
 import java.util.concurrent.ForkJoinPool;
 

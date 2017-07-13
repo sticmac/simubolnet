@@ -1,4 +1,4 @@
-package fr.unice.i3s.mdsc.simubool.graph.node;
+package fr.unice.i3s.mdsc.simuboolnet.graph.node;
 
 import java.util.ArrayList;
 import java.util.List;
