@@ -4,6 +4,10 @@ import fr.unice.i3s.mdsc.simubool.graph.node.Node;
 
 /**
  * A class for directed graph
+ *
+ * @author Marc Gaetano
+ * @author Christophe Papazian
+ * @author Julien Lemaire
  */
 public class DiGraph extends AbstractGraph {
 

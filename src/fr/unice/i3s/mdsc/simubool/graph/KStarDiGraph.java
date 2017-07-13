@@ -9,10 +9,21 @@ import fr.unice.i3s.mdsc.simubool.util.function.MultiPredicate;
 import java.math.BigInteger;
 import java.util.*;
 
+/**
+ * K* digraph as defined in README.md.
+ *
+ * @author Julien Lemaire
+ */
 public class KStarDiGraph extends DiGraph {
 	private int order;
 	private Map<Pair<Integer, Integer>, Integer> indexes;
 
+	/**
+	 * Main constructor.
+	 * Builds a K* digraph at order n by adding the needed <code>Edge</code>s.
+	 *
+	 * @param n order of the K* digraph.
+	 */
 	public KStarDiGraph(int n) {
 		super(n*(n-1));
 
@@ -52,14 +63,29 @@ public class KStarDiGraph extends DiGraph {
 		}
 	}
 
+	/**
+	 * Copy constructor.
+	 *
+	 * @param kStarDiGraph the K* digraph to copy.
+	 */
 	public KStarDiGraph(KStarDiGraph kStarDiGraph) {
 		this(kStarDiGraph.order);
 	}
 
+	/**
+	 * Returns the order of the K* digraph.
+	 *
+	 * @return the order of the K* digraph.
+	 */
 	public int getOrder() {
 		return order;
 	}
 
+	/**
+	 * Set the value of each node based on the binary representation of an integer.
+	 *
+	 * @param entry the integer on which the values of the nodes will be based on.
+	 */
 	public void setValues(int entry) {
 		String binaryEntry = Integer.toBinaryString(entry);
 		int i = 0;
@@ -71,6 +97,11 @@ public class KStarDiGraph extends DiGraph {
 		}
 	}
 
+	/**
+	 * Set the function of each node based on the representation of an integer in radix equals to the number of individual functions available.
+	 *
+	 * @param functions the integer of which the functions of the nodes will be based on.
+	 */
 	public void setFunctions(BigInteger functions) {
 		String entry = functions.toString(Functions.biPredicates.length);
 		int i = 0;
@@ -79,15 +110,32 @@ public class KStarDiGraph extends DiGraph {
 		}
 	}
 
+	/**
+	 * Change the value of a node based on its coordinates form.
+	 *
+	 * @param x x coordinate of the node.
+	 * @param y y cooridnate of the node.
+	 * @param newValue new value of the node.
+	 */
 	public void changeValueOf(int x, int y, boolean newValue) {
 		int intKey = indexes.get(new Pair<>(x, y));
 		this.changeValueOf(intKey, newValue);
 	}
 
+	/**
+	 * Change the function of a node based on its id.
+	 *
+	 * @param i the id of the selected node.
+	 * @param function the new function to apply to the node.
+	 */
 	public void changeFunctionOf(int i, MultiPredicate function) {
 		((MultiPredicateNode)this.nodes[i]).setFunction(function);
 	}
 
+	/**
+	 * Update the values of all nodes of the graph.
+	 * The updating process of each node is based on its assigned function and the values of its parents.
+	 */
 	public void updateAllValues() {
 		Queue<Node> todo = new LinkedList<>();
 		for (int i = 0 ; i < order ; i++) {
@@ -105,6 +153,12 @@ public class KStarDiGraph extends DiGraph {
 		}
 	}
 
+	/**
+	 * Evaluates whether or not the graph was in a fixed point configuration.
+	 * Such a configuration happens if none of the representing nodes ((i,i); i in [1, order]) are changing values after update.
+	 *
+	 * @return true if the graph was in a fixed point configuration.
+	 */
 	public boolean isFixedPoint() {
 		for (int i = 0 ; i < order ; i++) {
 			Node node = nodes[i*(order-1)];
@@ -117,6 +171,12 @@ public class KStarDiGraph extends DiGraph {
 		return true;
 	}
 
+	/**
+	 * Evaluates whether or not the given value is a fixed point on the graph.
+	 *
+	 * @param value the value to test.
+	 * @return true if the value is a fixed point.
+	 */
 	public boolean isFixedPoint(int value) {
 		this.setValues(value);
 		this.updateAllValues();

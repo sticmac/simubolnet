@@ -13,6 +13,11 @@ import java.util.Queue;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
 
+/**
+ * Parent task of all functions computations of the graph.
+ *
+ * @author Julien Lemaire
+ */
 public class ComputeFixedPoints extends RecursiveTask<Integer> {
 	private int order;
 	private Queue<ForkJoinTask<Integer>> threadsQueue;
@@ -21,6 +26,13 @@ public class ComputeFixedPoints extends RecursiveTask<Integer> {
 	private final BigInteger nbFunctions;
 	private final boolean displayPercentage;
 
+	/**
+	 * Main constructor.
+	 *
+	 * @param order order of the K* graph to build.
+	 * @param procs number of threads to use.
+	 * @param displayPercentage true if percentage has to be displayed.
+	 */
 	public ComputeFixedPoints(int order, int procs, boolean displayPercentage) {
 		this.order = order;
 		this.threadsQueue = new LinkedList<>();
@@ -30,6 +42,11 @@ public class ComputeFixedPoints extends RecursiveTask<Integer> {
 		this.displayPercentage = displayPercentage;
 	}
 
+	/**
+	 * Runs the simulation.
+	 *
+	 * @return phi of the K* graph of order <code>order</code>.
+	 */
 	@Override
 	public Integer compute() {
 		KStarDiGraph diGraph = new KStarDiGraph(order);

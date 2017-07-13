@@ -7,6 +7,10 @@ import java.util.*;
 /**
  * A class for abstract graph. An abstract graph is the common part
  * between directed graph (DiGraph) and undirected graph (UnDiGraph)
+ *
+ * @author Marc Gaetano
+ * @author Christophe Papazian
+ * @author Julien Lemaire
  */
 public abstract class AbstractGraph {
 	

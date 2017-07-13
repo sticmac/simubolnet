@@ -5,6 +5,10 @@ import fr.unice.i3s.mdsc.simubool.util.Pair;
 
 /**
  * A class for the edges of a graph.
+ *
+ * @author Marc Gaetano
+ * @author Christophe Papazian
+ * @author Julien Lemaire
  */
 public class Edge extends Pair<Node, Node> {
 
